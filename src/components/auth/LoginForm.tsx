@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { FiLock, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SpecialInputField from "@/components/SpecialInputField";
-import logo from "@/assets/company-logo.png";
 import useAuth from "@/hooks/useAuth"; // Custom hook for authentication logic
 
 const LoginForm = () => {

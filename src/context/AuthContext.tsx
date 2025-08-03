@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const AuthContext = createContext(null);
+import type { ReactNode } from "react";
 
-import { ReactNode } from "react";
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();

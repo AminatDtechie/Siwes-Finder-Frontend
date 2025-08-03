@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import logo from "../../assets/company-logo.png";
 import { FiArrowLeft, FiLock, FiMail } from "react-icons/fi";
 import SpecialInputField from "../SpecialInputField";
 import useAuth from "../../hooks/useAuth";
