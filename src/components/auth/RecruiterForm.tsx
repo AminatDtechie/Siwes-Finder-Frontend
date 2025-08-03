@@ -195,7 +195,7 @@ const RecruiterForm = ({ toggleOption }: RecruiterFormProps) => {
           onClick={() => toggleOption("attendee")}
           className="cursor-pointer text-primary font-medium"
         >
-          Sign Up as an Attendee
+          Sign Up as a Student
         </span>
       </p>
     </motion.div>
