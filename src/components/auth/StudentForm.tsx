@@ -189,7 +189,7 @@ const StudentForm = ({ toggleOption }) => {
           onClick={() => toggleOption("promoter")}
           className="cursor-pointer text-primary font-medium"
         >
-          Sign Up as a Promoter
+          Sign Up as a Recruiter
         </span>
       </p>
     </motion.div>
