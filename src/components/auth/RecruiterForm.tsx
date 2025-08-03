@@ -164,7 +164,7 @@ const RecruiterForm = ({ toggleOption }: RecruiterFormProps) => {
           />
           <span>
             I have read and agree to the{" "}
-            <a href="#" className="text-primary font-medium">
+            <a href="#" className="text-primary font-medium underline">
               Terms and Conditions
             </a>
           </span>
