@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 import type {
   APIResponse,
   AuthContextType,
-  AuthUser,
+  AuthDetails,
   LoginCredentials,
   OtpData,
   OtpResponse,
@@ -21,7 +21,7 @@ import type {
 
 const useAuth = () => {
   const navigate = useNavigate();
-  const context = useContext(AuthContext) as unknown as AuthContextType | null;
+  const context = useContext(AuthContext) as AuthContextType | null;
 
   if (!context) {
     throw new Error(
@@ -42,7 +42,7 @@ const useAuth = () => {
   };
 
   const loginMutation = useMutation<
-    APIResponse<AuthUser>,
+    APIResponse<AuthDetails>,
     AxiosError,
     LoginCredentials
   >({
@@ -80,7 +80,7 @@ const useAuth = () => {
     },
     onSuccess: (userData) => {
       setOtpRequested(true);
-      storedUserEmail((userData?.data as { email?: string })?.email);
+      storedUserEmail(userData?.data?.email);
       navigate("/email-verification");
       onSuccess({
         message: "Registration Successful!",
@@ -156,7 +156,7 @@ const useAuth = () => {
   });
 
   const verifyOtpMutation = useMutation<
-    APIResponse<AuthUser>,
+    APIResponse<AuthDetails>,
     AxiosError,
     OtpData
   >({
