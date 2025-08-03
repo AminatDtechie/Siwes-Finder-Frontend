@@ -7,6 +7,7 @@ type Token = {
 };
 
 type AuthUser = {
+  [x: string]: any;
   id: string;
   name: string;
   email: string;
