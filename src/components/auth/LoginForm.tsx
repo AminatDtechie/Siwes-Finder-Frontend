@@ -3,12 +3,8 @@ import { useForm } from "react-hook-form";
 import { FiLock, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SpecialInputField from "@/components/SpecialInputField";
-import logo from "@/assets/company-logo.png";
-import useAuth from "@/hooks/useAuth"; // Custom hook for authentication logic
 
 const LoginForm = () => {
-  const { login, isLoading } = useAuth(); // Use login mutation from authentication hook
-
   const {
     register,
     handleSubmit,
@@ -20,8 +16,7 @@ const LoginForm = () => {
       console.error("Invalid form submission: Missing email or password.");
       return;
     }
-    const { terms, ...loginDetails } = data;
-    login(loginDetails);
+    console.log("Submitting Login Data:", data);
   };
 
   return (
@@ -114,16 +109,11 @@ const LoginForm = () => {
         {/* Submit Button */}
         <motion.button
           type="submit"
-          disabled={isLoading?.login}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className={`mx-auto min-w-40 border-2 border-primary font-medium py-2 rounded-full shadow-md transition ${
-            isLoading?.login
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "text-primary hover:bg-primary hover:text-white"
-          }`}
+          className="mx-auto min-w-40 border-2 border-primary font-medium py-2 rounded-full shadow-md transition text-primary hover:bg-primary hover:text-white"
         >
-          {isLoading?.login ? "Logging in..." : "Login"}
+          Login
         </motion.button>
       </form>
 

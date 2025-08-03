@@ -1,15 +1,11 @@
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiLock, FiMail } from "react-icons/fi";
-import logo from "../../assets/company-logo.png";
 import SpecialInputField from "../SpecialInputField";
 import { FaSpinner } from "react-icons/fa";
-import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
 const StudentForm = ({ toggleOption }) => {
-  const { signUp, isLoading } = useAuth(); // Signup mutation
-
   const {
     register,
     handleSubmit,
@@ -18,11 +14,9 @@ const StudentForm = ({ toggleOption }) => {
   } = useForm();
   const password = watch("password");
   const onSubmit = (data) => {
-    const { confirmPassword, ...signupData } = data;
-    if (confirmPassword !== password) return;
+    if (data?.confirmPassword !== password) return;
 
     // Proceed with signup API call
-    signUp({ role_id: 3, ...signupData });
   };
 
   return (
@@ -180,13 +174,11 @@ const StudentForm = ({ toggleOption }) => {
         {/* Submit Button */}
         <motion.button
           type="submit"
-          disabled={isLoading?.signUp}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mx-auto min-w-40 border-2 border-primary font-medium text-primary py-2 rounded-full shadow-md flex items-center justify-center gap-2 hover:text-white hover:bg-primary transition"
         >
           <span>Get Started </span>
-          {isLoading?.signUp && <FaSpinner className="animate-spin" />}
         </motion.button>
       </form>
 

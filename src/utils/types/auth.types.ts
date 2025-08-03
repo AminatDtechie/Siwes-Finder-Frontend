@@ -3,11 +3,6 @@ export interface LoginCredentials {
   password: string;
 }
 
-export type OtpResponse = {
-  message: string;
-  success: boolean;
-};
-
 export interface RegisterData {
   name: string;
   email: string;
@@ -19,34 +14,58 @@ export interface OtpData {
   otp: string;
 }
 
-export interface AuthToken {
-  token: string;
+export type OtpResponse = {
+  message: string;
+  success: boolean;
+};
+
+export interface APIResponse<T> {
+  data: T;
+  message?: string;
+  success?: boolean;
 }
 
+// Represents a profile structure from your backend
 export interface UserProfile {
   userId: string | number;
   [key: string]: unknown;
 }
 
+// What the backend sends after login
+export interface AuthToken {
+  token: string;
+}
+
 export interface User {
-  profile: UserProfile;
+  id: string | number;
+  name: string;
+  email: string;
+  profile?: UserProfile;
   lastRoleId?: number;
   [key: string]: unknown;
 }
 
+// Full authentication details returned from backend
 export interface AuthDetails {
   user: User;
   token: AuthToken;
   [key: string]: unknown;
 }
 
-export interface AuthContextType {
-  authDetails: AuthDetails | null;
-  updateAuth: (data: AuthDetails | null) => void;
+// Local simplified auth user used in context
+export interface AuthUser {
+  id: string | number;
+  name: string;
+  email: string;
+  token: {
+    token: string;
+    expiresAt: string;
+  };
+  profile?: UserProfile;
 }
 
-export interface APIResponse<T> {
-  data: T;
-  message?: string;
-  success?: boolean;
+// Context structure
+export interface AuthContextType {
+  authDetails: AuthUser | null;
+  updateAuth: (data: AuthUser | null) => void;
 }

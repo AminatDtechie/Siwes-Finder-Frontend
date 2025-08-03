@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import Fallback from "./components/Fallback";
+import Fallback from "@/components/Fallback";
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
 const Placements = lazy(() => import("./pages/Placements"));

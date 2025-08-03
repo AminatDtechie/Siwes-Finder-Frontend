@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import searcherAnim from "../assets/anim/searcher-anim.json";
 import Lottie from "lottie-react";
+import type { LottieRefCurrentProps } from "lottie-react";
 
 function Fallback() {
-  const lottieRef = useRef();
+  const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
     if (lottieRef.current) {
@@ -18,7 +19,7 @@ function Fallback() {
         className="w-[40%] md:w-[25%]"
         animationData={searcherAnim}
       />
-      <h1 className="mt-4 text-xl md:text-2xl font-extrabold text-gray-700">
+      <h1 className="mt-4 text-xl md:text-2xl font-extrabold text-blue-700">
         Siwes Finder
       </h1>
     </main>
