@@ -57,7 +57,10 @@ export interface AuthUser {
   id: string | number;
   name: string;
   email: string;
-  token: string;
+  token: {
+    token: string;
+    expiresAt: string;
+  };
   profile?: UserProfile;
 }
 

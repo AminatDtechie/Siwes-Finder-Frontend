@@ -4,17 +4,8 @@ import LoginForm from "@/components/auth/LoginForm";
 import watermark from "@/assets/bg-img.png";
 import bgImg from "@/assets/hero-img.png";
 import SEOHelmet from "@/engine/SEOHelmet";
-import { AuthContext } from "@/context/AuthContext"; // Import authentication context
 
 const Login = () => {
-  const { authDetails } = useContext(AuthContext); // Get user authentication status
-  const user = authDetails?.user;
-  if (user?.lastRoleName === "attendee") {
-    return <Navigate to="/attendee" />;
-  } else if (user?.lastRoleName === "promoter") {
-    return <Navigate to="/promoter/events" />;
-  }
-
   return (
     <div
       className="relative w-screen h-screen flex justify-center items-center"
