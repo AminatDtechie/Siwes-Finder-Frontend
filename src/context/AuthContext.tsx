@@ -1,27 +1,39 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import type { ReactNode } from "react";
+type Token = {
+  token: string;
+  expiresAt: string; // ISO date string
+};
 
-export const AuthContext = createContext(null);
+type AuthUser = {
+  id: string;
+  name: string;
+  email: string;
+  token: Token;
+};
+
+type AuthContextType = {
+  authDetails: AuthUser | null;
+  updateAuth: (user: AuthUser | null) => void;
+};
+
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
 
-  // Load auth details from sessionStorage
-  const [authDetails, setAuthDetails] = useState(() => {
+  const [authDetails, setAuthDetails] = useState<AuthUser | null>(() => {
     const storedUser = sessionStorage.getItem("authUser");
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  // Check if the token is expired
-  const isTokenExpired = (expiresAt) => {
-    return expiresAt && new Date(expiresAt) <= new Date();
+  const isTokenExpired = (expiresAt: string) => {
+    return new Date(expiresAt) <= new Date();
   };
 
-  // Refresh token function
   const refreshToken = async () => {
-    if (!authDetails || !authDetails.token?.token) return; // Stop if no user or token
+    if (!authDetails?.token?.token) return;
 
     try {
       const response = await fetch("/api/refresh-token", {
@@ -34,43 +46,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (!response.ok) throw new Error("Token refresh failed");
 
-      const newToken = await response.json();
+      const newToken: Token = await response.json();
       updateAuth({ ...authDetails, token: newToken });
     } catch (error) {
       console.error("Failed to refresh token:", error);
-      updateAuth(null); // Logout user if refresh fails
+      updateAuth(null);
     }
   };
 
-  // Auto-logout if token expires
+  // Expired token cleanup
   useEffect(() => {
-    if (!authDetails || !authDetails.token?.expiresAt) return;
-
-    if (isTokenExpired(authDetails.token.expiresAt)) {
+    if (
+      authDetails?.token?.expiresAt &&
+      isTokenExpired(authDetails.token.expiresAt)
+    ) {
       updateAuth(null);
     }
   }, [authDetails]);
 
-  // Schedule token refresh only if a valid user exists
+  // Refresh before token expires
   useEffect(() => {
-    if (!authDetails || !authDetails.token?.expiresAt) return;
+    if (!authDetails?.token?.expiresAt) return;
 
-    const expiresIn = new Date(authDetails?.token?.expiresAt) - new Date();
+    const expiresIn =
+      new Date(authDetails.token.expiresAt).getTime() - Date.now();
     if (expiresIn > 0) {
-      const timer = setTimeout(refreshToken, expiresIn - 60000); // Refresh 1 min before expiry
+      const timer = setTimeout(refreshToken, expiresIn - 60 * 1000); // refresh 1 minute early
       return () => clearTimeout(timer);
     }
   }, [authDetails]);
 
-  // Function to update auth state
-  const updateAuth = (newUser) => {
-    setAuthDetails(newUser);
-    if (newUser) {
-      sessionStorage.setItem("authUser", JSON.stringify(newUser));
-      queryClient.setQueryData(["authUser"], newUser);
+  const updateAuth = (user: AuthUser | null) => {
+    setAuthDetails(user);
+    if (user) {
+      sessionStorage.setItem("authUser", JSON.stringify(user));
+      queryClient.setQueryData(["authUser"], user);
     } else {
       sessionStorage.removeItem("authUser");
-      queryClient.removeQueries(["authUser"]);
+      queryClient.removeQueries({ queryKey: ["authUser"] });
     }
   };
 
