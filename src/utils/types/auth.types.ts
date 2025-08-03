@@ -1,13 +1,16 @@
+// Login credentials for login form
 export interface LoginCredentials {
   email: string;
   password: string;
 }
 
-export type OtpResponse = {
+// OTP response from API
+export interface OtpResponse {
   message: string;
   success: boolean;
-};
+}
 
+// Data for registration
 export interface RegisterData {
   name: string;
   email: string;
@@ -15,36 +18,40 @@ export interface RegisterData {
   [key: string]: unknown;
 }
 
+// OTP data for verification
 export interface OtpData {
   otp: string;
 }
 
-export interface AuthToken {
+// Auth token
+export interface Token {
   token: string;
 }
 
+// Profile data of the user
 export interface UserProfile {
   userId: string | number;
+  name?: string;
+  email?: string;
   [key: string]: unknown;
 }
 
-export interface User {
-  profile: UserProfile;
-  lastRoleId?: number;
-  [key: string]: unknown;
+// Complete user information
+export interface AuthUser {
+  id: string | number;
+  name: string;
+  email: string;
+  token: string;
+  profile?: UserProfile;
 }
 
-export interface AuthDetails {
-  user: User;
-  token: AuthToken;
-  [key: string]: unknown;
-}
-
+// Context type used in React context
 export interface AuthContextType {
-  authDetails: AuthDetails | null;
-  updateAuth: (data: AuthDetails | null) => void;
+  authDetails: AuthUser | null;
+  updateAuth: (user: AuthUser | null) => void;
 }
 
+// Generic API response wrapper
 export interface APIResponse<T> {
   data: T;
   message?: string;
