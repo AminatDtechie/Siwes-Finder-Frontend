@@ -1,6 +1,6 @@
 import { Globe, Linkedin, X } from "lucide-react";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer className="w-full bg-blue-900 text-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -25,7 +25,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-3 text-blue-200">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="/placements" className="hover:text-white transition-colors">
                   Find placements
                 </a>
               </li>
@@ -105,7 +105,7 @@ export default function Footer() {
               <ul className="space-y-3 text-blue-200">
                 <li>
                   <a
-                    href="#"
+                    href="/placements"
                     className="hover:text-white transition-colors text-sm"
                   >
                     Find placements
@@ -202,3 +202,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default Footer;
