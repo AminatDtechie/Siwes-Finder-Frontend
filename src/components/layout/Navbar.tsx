@@ -4,8 +4,16 @@ import { Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar() {
+ const Navbar = () => {
+  const location = useLocation();
+
+  const links = [
+    { to: "/placements", label: "Placements" },
+    { to: "/community", label: "Community" },
+  ];
+
   return (
     <header className="w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
       <div className="flex items-center gap-2 flex-shrink-0">
@@ -19,13 +27,26 @@ export default function Navbar() {
           </SheetContent>
         </Sheet>
 
-        <span className="text-xl font-bold text-[#112D6A]">SiwesFinder</span>
+        <a href="/" className="text-xl font-bold text-[#112D6A]">
+          SiwesFinder
+        </a>
       </div>
 
       {/* Hide these on mobile */}
-      <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground flex-shrink-0">
-        <a href="/placements">Placements</a>
-        <a href="#">Community</a>
+      <div className="hidden md:flex items-center gap-6 text-base text-muted-foreground flex-shrink-0">
+        {links.map(({ to, label }) => (
+          <Link
+            key={to}
+            to={to}
+            className={`transition-colors hover:text-primary ${
+              location.pathname === to
+                ? "underline underline-offset-6 text-[#112D6A]"
+                : ""
+            }`}
+          >
+            {label}
+          </Link>
+        ))}
       </div>
 
       {/* Search input: smaller on mobile */}
@@ -48,11 +69,11 @@ export default function Navbar() {
       <div className="hidden md:flex items-center space-x-4 text-sm flex-shrink-0">
         <a
           href="/login"
-          className="px-4 py-2 rounded border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
+          className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
         >
           Login
         </a>
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap">
+        <Button className="bg-blue-600 !rounded-none hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap">
           Register
         </Button>
 
@@ -67,3 +88,5 @@ export default function Navbar() {
     </header>
   );
 }
+
+export default Navbar;

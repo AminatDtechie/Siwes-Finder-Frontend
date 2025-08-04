@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
+import { PiGoogleLogo } from "react-icons/pi";
 
 export default function Hero() {
   return (
@@ -23,7 +24,8 @@ export default function Hero() {
               variant="outline"
               className="w-full md:w-auto bg-white text-black hover:bg-gray-100"
             >
-              <img src="/logos/google.png" className="mr-2 h-5 w-5" alt="googlelogo" />
+              {/* <img src="/logos/google.png" className="mr-2 h-5 w-5" alt="googlelogo" /> */}
+              <PiGoogleLogo className="mr-2 h-5 w-5" /> 
               Continue with Google
             </Button>
 
