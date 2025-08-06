@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "react-router-dom";
 
- const Navbar = () => {
+const Navbar = () => {
   const location = useLocation();
 
   const links = [
@@ -21,9 +21,52 @@ import { Link, useLocation } from "react-router-dom";
           <SheetTrigger className="md:hidden">
             <Menu className="h-5 w-5" />
           </SheetTrigger>
-          <SheetContent side="left">
-            {/* mobile nav here if needed */}
-            <p className="text-lg font-semibold">Menu</p>
+          <SheetContent side="left" className="w-64 bg-white p-6">
+            <div className="flex flex-col h-full justify-between">
+              {/* Top - Navigation Links */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-[#112D6A]">
+                  SiwesFinder
+                </h2>
+
+                <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
+                  <a
+                    href="/communities"
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    Communities
+                  </a>
+                  <a
+                    href="/placements"
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    Placements
+                  </a>
+                  <a
+                    href="/companies"
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    For Companies
+                  </a>
+                </nav>
+              </div>
+
+              {/* Bottom - Auth Actions */}
+              <div className="space-y-4">
+                <a
+                  href="/login"
+                  className="block w-full text-center py-2 px-4 border border-blue-700 text-blue-700 rounded-md hover:bg-blue-50 transition"
+                >
+                  Login
+                </a>
+                <a
+                  href="/register"
+                  className="block w-full text-center py-2 px-4 bg-blue-700 text-white rounded-md hover:bg-blue-800 transition"
+                >
+                  Register
+                </a>
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
 
@@ -87,6 +130,6 @@ import { Link, useLocation } from "react-router-dom";
       </div>
     </header>
   );
-}
+};
 
 export default Navbar;
