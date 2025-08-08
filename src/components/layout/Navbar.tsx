@@ -1,12 +1,13 @@
 "use client";
 
-import { Menu, Search } from "lucide-react";
+import { Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useLocation } from "react-router-dom";
+import { FiUsers, FiBriefcase, FiLogIn, FiUserPlus } from "react-icons/fi"
 
- const Navbar = () => {
+const Navbar = () => {
   const location = useLocation();
 
   const links = [
@@ -21,10 +22,56 @@ import { Link, useLocation } from "react-router-dom";
           <SheetTrigger className="md:hidden">
             <Menu className="h-5 w-5" />
           </SheetTrigger>
-          <SheetContent side="left">
-            {/* mobile nav here if needed */}
-            <p className="text-lg font-semibold">Menu</p>
-          </SheetContent>
+          <SheetContent side="left" className="w-64 bg-white p-6">
+  <div className="flex flex-col h-full justify-between">
+    {/* Top - Navigation Links */}
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-[#112D6A]">SiwesFinder</h2>
+
+      <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
+        <a
+          href="/communities"
+          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+        >
+          <FiUsers className="w-5 h-5" />
+          Communities
+        </a>
+        <a
+          href="/placements"
+          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+        >
+          <FiBriefcase className="w-5 h-5" />
+          Placements
+        </a>
+        <a
+          href="/companies"
+          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+        >
+          <Building2 className="w-5 h-5" />
+          For Companies
+        </a>
+      </nav>
+    </div>
+
+    {/* Bottom - Auth Actions */}
+    <div className="space-y-4">
+      <a
+        href="/login"
+        className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
+      >
+        <FiLogIn className="w-5 h-5" />
+        Login
+      </a>
+      <a
+        href="/register"
+        className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-blue-900 text-white !rounded-0 hover:bg-blue-700 transition"
+      >
+        <FiUserPlus className="w-5 h-5" />
+        Register
+      </a>
+    </div>
+  </div>
+</SheetContent>
         </Sheet>
 
         <a href="/" className="text-xl font-bold text-[#112D6A]">
@@ -87,6 +134,6 @@ import { Link, useLocation } from "react-router-dom";
       </div>
     </header>
   );
-}
+};
 
 export default Navbar;
