@@ -7,7 +7,7 @@ import PlacementCarousel from "@/components/Placements/PlacementCarousel";
 import SearchPlacements from "@/components/Placements/SearchPlacements";
 import { FilterParams } from "@/components/Placements/FilterDialog";
 
-export default function Placements() {
+const Placements = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<FilterParams>({
     role: "",
@@ -33,3 +33,5 @@ export default function Placements() {
     </>
   );
 }
+
+export default Placements;

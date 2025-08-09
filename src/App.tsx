@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Fallback from "@/components/Fallback";
+import Companies from "./pages/Companies";
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
 const Placements = lazy(() => import("./pages/Placements"));
@@ -16,6 +17,7 @@ function App() {
         <Route path="/placements" element={<Placements />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/companies" element={<Companies />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

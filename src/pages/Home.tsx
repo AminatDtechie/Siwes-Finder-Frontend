@@ -9,7 +9,7 @@ import CTASection from '@/components/Home/CTASection'
 import JoinDiscussionsSection from '@/components/Home/JoinDiscussionsSection'
 import NewsletterSignupSection from '@/components/Home/NewsletterSignupSection'
 
-export default function Home() {
+const Home = () => {
   return (
     <>
       <Navbar />
@@ -25,3 +25,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home;
