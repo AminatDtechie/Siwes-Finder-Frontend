@@ -134,7 +134,7 @@ export default function PlacementsCarousel () {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 mb-4">
-                      <Button className="flex-1 cursor-pointer bg-blue-900 text-white">
+                      <Button className="flex-1 cursor-pointer btn-custom text-white">
                         View Details
                       </Button>
                       <Button variant="outline" className="flex cursor-pointer items-center gap-1 border-gray-500">

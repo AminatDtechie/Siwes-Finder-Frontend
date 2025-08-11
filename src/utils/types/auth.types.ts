@@ -1,13 +1,26 @@
-export interface LoginCredentials {
+export interface LoginPayload {
   email: string;
   password: string;
 }
 
-export interface RegisterData {
-  name: string;
+export interface RegisterPayload {
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
-  [key: string]: unknown;
+}
+
+export interface RegisterResponse {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  message: string;
+  role: string;
 }
 
 export interface OtpData {

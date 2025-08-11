@@ -51,7 +51,7 @@ const FAQ = () => {
   return (
     <>
       <section className="w-full my-3 flex justify-center items-center">
-        <Button className="bg-blue-900 text-white !rounded-none text-base mx-auto">
+        <Button className=" text-white btn-custom text-base mx-auto">
           Frequently asked questions
           <PiArrowCircleDownRightLight />
         </Button>

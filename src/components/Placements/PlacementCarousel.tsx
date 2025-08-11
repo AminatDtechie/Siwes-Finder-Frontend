@@ -205,7 +205,7 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
               </div>
 
               <div className="flex gap-3 justify-between mb-3">
-                <Button className="flex bg-blue-900 !rounded-none text-white text-sm">
+                <Button className="flex btn-custom text-white text-sm">
                   View Details
                 </Button>
                 <Button
@@ -217,7 +217,7 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
                 </Button>
               </div>
 
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-gray-500 text-right">
                 {placement.postedTime}
               </p>
             </CardContent>

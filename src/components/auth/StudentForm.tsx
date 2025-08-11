@@ -4,8 +4,21 @@ import { FiArrowLeft, FiLock, FiMail } from "react-icons/fi";
 import SpecialInputField from "../SpecialInputField";
 import { FaSpinner } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Auth from "@/hooks/useAuth";
+import { onFailure } from "@/utils/notifications/OnFailure";
+import { onSuccess } from "@/utils/notifications/OnSuccess";
 
 const StudentForm = ({ toggleOption }) => {
+  const { mutate, isPending } = Auth.useStudentRegister({
+    onSuccess: (data) => {
+      const success = { message: "Account created successfully!" };
+      onSuccess(success);
+    },
+    onError: (error) => {
+      onFailure(error.response?.data || "An unknown error occurred");
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -16,7 +29,7 @@ const StudentForm = ({ toggleOption }) => {
   const onSubmit = (data) => {
     if (data?.confirmPassword !== password) return;
 
-    // Proceed with signup API call
+    mutate(data);
   };
 
   return (
@@ -174,11 +187,12 @@ const StudentForm = ({ toggleOption }) => {
         {/* Submit Button */}
         <motion.button
           type="submit"
+          disabled={isPending}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mx-auto min-w-40 border-2 border-primary font-medium text-primary py-2 rounded-full shadow-md flex items-center justify-center gap-2 hover:text-white hover:bg-primary transition"
         >
-          <span>Get Started </span>
+          <span> {isPending ? "Loading" : "Get Started"} </span>
         </motion.button>
       </form>
 
