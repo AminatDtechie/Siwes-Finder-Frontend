@@ -1,26 +1,8 @@
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-export interface RegisterPayload {
+export interface StudentRegisterPayload {
   firstname: string;
   lastname: string;
   email: string;
   password: string;
-}
-
-export interface RegisterResponse {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-}
-
-export interface LoginResponse {
-  token: string;
-  message: string;
-  role: string;
 }
 
 export interface OtpData {

@@ -7,8 +7,12 @@ import {
   MapPin,
   Calendar,
   Share,
+  Banknote,
 } from "lucide-react";
 import { FilterParams } from "./FilterDialog";
+import usePlacement from "@/hooks/usePlacement";
+import { formatCreatedAt } from "@/utils/formmaters";
+import PlacementSkeleton from "./PlacementSkeleton";
 
 interface Placement {
   id: number;
@@ -24,109 +28,20 @@ interface PlacementCarouselProps {
   filters: FilterParams;
 }
 
-const placements: Placement[] = [
-  {
-    id: 1,
-    title: "Frontend Developer Intern",
-    company: "Flutterwave (Remote)",
-    description:
-      "Work with senior engineers to build user-facing features using React and Tailwind CSS.",
-    location: "Remote",
-    salary: "₦100k/Month",
-    postedTime: "2 hours ago",
-  },
-  {
-    id: 2,
-    title: "Backend Developer Intern",
-    company: "Paystack (On-site)",
-    description:
-      "Assist in building scalable backend services using Node.js and PostgreSQL.",
-    location: "Ikeja, Lagos",
-    salary: "₦120k/Month",
-    postedTime: "1 day ago",
-  },
-  {
-    id: 3,
-    title: "UI/UX Design Intern",
-    company: "Hotels.ng (Remote)",
-    description:
-      "Collaborate with the product team to create wireframes, mockups, and improve user experience.",
-    location: "Remote",
-    salary: "₦80k/Month",
-    postedTime: "5 hours ago",
-  },
-  {
-    id: 4,
-    title: "Data Analyst Intern",
-    company: "Kuda Bank",
-    description:
-      "Analyze user and product data to provide insights and reports to internal teams.",
-    location: "Yaba, Lagos",
-    salary: "₦90k/Month",
-    postedTime: "3 days ago",
-  },
-  {
-    id: 5,
-    title: "Mobile App Developer Intern",
-    company: "Interswitch",
-    description: "Help build mobile apps using Flutter and React Native.",
-    location: "Victoria Island, Lagos",
-    salary: "₦110k/Month",
-    postedTime: "6 hours ago",
-  },
-  {
-    id: 6,
-    title: "Full Stack Developer Intern",
-    company: "Andela (On-site)",
-    description:
-      "Work across both frontend and backend with mentoring from senior devs.",
-    location: "Lekki, Lagos",
-    salary: "₦130k/Month",
-    postedTime: "4 hours ago",
-  },
-  {
-    id: 7,
-    title: "Digital Marketing Intern",
-    company: "FarmCrowdy",
-    description:
-      "Plan and execute digital marketing strategies for online campaigns.",
-    location: "Ibadan, Oyo",
-    salary: "₦70k/Month",
-    postedTime: "2 days ago",
-  },
-  {
-    id: 8,
-    title: "Product Management Intern",
-    company: "Opay",
-    description:
-      "Support the product team in gathering requirements and coordinating releases.",
-    location: "Abuja, FCT",
-    salary: "₦95k/Month",
-    postedTime: "12 hours ago",
-  },
-  {
-    id: 9,
-    title: "Business Analyst Intern",
-    company: "Paga",
-    description:
-      "Evaluate business data to suggest improvements and inform decisions.",
-    location: "Enugu, Enugu",
-    salary: "₦85k/Month",
-    postedTime: "7 hours ago",
-  },
-  {
-    id: 10,
-    title: "Cybersecurity Intern",
-    company: "MainOne",
-    description:
-      "Assist in monitoring security tools, handling incidents, and implementing best practices.",
-    location: "Ajah, Lagos",
-    salary: "₦100k/Month",
-    postedTime: "9 hours ago",
-  },
-];
-
 const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
+  const { getPlacements } = usePlacement();
+
+  const { data, isLoading } = getPlacements;
+
+  const filteredPlacements = data?.filter(p => {
+  return (
+    (!filters.role || p.position_title.toLowerCase().includes(filters.role.toLowerCase())) &&
+    (!filters.location || p.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+    (!filters.duration || p.duration === filters.duration) &&
+    (!filters.searchTerm || p.position_title.toLowerCase().includes(filters.searchTerm.toLowerCase()))
+  );
+});
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(getInitialItemsPerPage());
 
@@ -146,12 +61,9 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil(placements.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredPlacements?.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentPlacements = placements.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const currentPlacements = filteredPlacements?.slice(startIndex, startIndex + itemsPerPage);
 
   const nextPage = () =>
     setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
@@ -176,53 +88,63 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
 
       {/* Placements Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-        {currentPlacements.map((placement) => (
-          <Card
-            key={placement.id}
-            className="bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-all duration-200"
-          >
-            <CardContent className="p-4 md:p-6">
-              <div className="mb-4">
-                <h3 className="font-bold text-gray-900 text-base md:text-lg mb-1">
-                  {placement.title}
-                </h3>
-                <p className="text-sm text-gray-600">{placement.company}</p>
-              </div>
-
-              <p className="text-sm text-gray-700 leading-relaxed mb-4">
-                {placement.description}
-              </p>
-
-              <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-1" />
-                  <span>{placement.location}</span>
+        {isLoading ? (
+          <PlacementSkeleton />
+        ) : (
+          currentPlacements?.map((placement) => (
+            <Card
+              key={placement.id}
+              className="bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-all duration-200"
+            >
+              <CardContent className="p-4 md:p-6">
+                <div className="mb-4">
+                  <h3 className="font-bold text-gray-900 text-base md:text-lg mb-1">
+                    {placement.position_title}
+                  </h3>
+                  <p className="text-sm text-gray-600 capitalize">
+                    {placement.industry} ({placement.position_type})
+                  </p>
                 </div>
-                <div className="flex items-center">
-                  <Calendar className="w-4 h-4 mr-1" />
-                  <span>{placement.salary}</span>
+
+                <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                  {placement.description}
+                </p>
+
+                <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <MapPin className="w-4 h-4 mr-1" />
+                    <span>{placement.location}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Banknote className="w-4 h-4 mr-1" />
+                    <span>
+                      {placement.salary_amount
+                        ? placement.salary_amount
+                        : "Unpaid"}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex gap-3 justify-between mb-3">
-                <Button className="flex btn-custom text-white text-sm">
-                  View Details
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex items-center !rounded-none gap-1 border-gray-500 text-sm"
-                >
-                  <Share className="w-4 h-4" />
-                  Share
-                </Button>
-              </div>
+                <div className="flex gap-3 justify-between mb-3">
+                  <Button className="flex btn-custom text-white text-sm">
+                    View Details
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex items-center !rounded-none gap-1 border-gray-500 text-sm"
+                  >
+                    <Share className="w-4 h-4" />
+                    Share
+                  </Button>
+                </div>
 
-              <p className="text-xs text-gray-500 text-right">
-                {placement.postedTime}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+                <p className="text-xs text-gray-500 text-right">
+                  {formatCreatedAt(placement.created_at)}
+                </p>
+              </CardContent>
+            </Card>
+          ))
+        )}
       </div>
 
       {/* Navigation */}

@@ -4,11 +4,20 @@ import { Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiUsers, FiBriefcase, FiLogIn, FiUserPlus } from "react-icons/fi";
+import { useAuthorize } from "@/context/AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, logout } = useAuthorize();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   const links = [
     { to: "/placements", label: "Placements" },
@@ -57,20 +66,40 @@ const Navbar = () => {
 
               {/* Bottom - Auth Actions */}
               <div className="space-y-4">
-                <a
-                  href="/login"
-                  className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
-                >
-                  <FiLogIn className="w-5 h-5" />
-                  Login
-                </a>
-                <a
-                  href="/registration"
-                  className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-blue-900 text-white !rounded-0 hover:bg-blue-700 transition"
-                >
-                  <FiUserPlus className="w-5 h-5" />
-                  Register
-                </a>
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
+                    >
+                      Dashboard
+                    </Link>
+                    <Button
+                      variant="default"
+                      onClick={handleLogout}
+                      className="px-4 py-2 border btn-custom w-full whitespace-nowrap"
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      href="/login"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
+                    >
+                      <FiLogIn className="w-5 h-5" />
+                      Login
+                    </a>
+                    <a
+                      href="/registration"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-blue-900 text-white !rounded-0 hover:bg-blue-700 transition"
+                    >
+                      <FiUserPlus className="w-5 h-5" />
+                      Register
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           </SheetContent>
@@ -116,26 +145,38 @@ const Navbar = () => {
 
       {/* Hide on mobile */}
       <div className="hidden lg:flex items-center space-x-4 text-sm flex-shrink-0">
-        <a
-          href="/login"
-          className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
-        >
-          Login
-        </a>
-        <a
-          href="/registration"
-          className="bg-blue-600 !rounded-none hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap"
-        >
-          Register
-        </a>
-
-        <a
-          href="/companies"
-          className="text-blue-600 hover:underline flex items-center space-x-1 whitespace-nowrap"
-        >
-          <span>For Companies</span>
-          <span aria-hidden="true">→</span>
-        </a>
+        {isAuthenticated ? (
+          <>
+            <Link
+              to="/dashboard"
+              className="transition-colors hover:text-primary"
+            >
+              Dashboard
+            </Link>
+            <Button
+              variant="default"
+              onClick={handleLogout}
+              className="px-4 py-2 border btn-custom whitespace-nowrap"
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <a
+              href="/login"
+              className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
+            >
+              Login
+            </a>
+            <a
+              href="/registration"
+              className="bg-blue-600 !rounded-none hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap"
+            >
+              Register
+            </a>
+          </>
+        )}
       </div>
     </header>
   );

@@ -3,26 +3,10 @@ import { useForm } from "react-hook-form";
 import { FiLock, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SpecialInputField from "@/components/SpecialInputField";
-import { FaSpinner } from "react-icons/fa";
-import { onFailure } from "@/utils/notifications/OnFailure";
-import { onSuccess } from "@/utils/notifications/OnSuccess";
-import { useNavigate } from "react-router-dom";
-import Auth from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = Auth.useLogin({
-    onSuccess: (data) => {
-      onSuccess(data);
-      localStorage.setItem("token", data.token);
-      navigate("/dashboard");
-    },
-    onError: (error) => {
-      onFailure(error.response?.data || "An unknown error occurred");
-    },
-  });
-
+  const {login}= useAuth();
   const {
     register,
     handleSubmit,
@@ -34,7 +18,9 @@ const LoginForm = () => {
       console.error("Invalid form submission: Missing email or password.");
       return;
     }
-    mutate(data);
+
+    login.mutate(data)
+
   };
 
   return (
@@ -127,12 +113,12 @@ const LoginForm = () => {
         {/* Submit Button */}
         <motion.button
           type="submit"
-          disabled={isPending}
+          disabled={login.isPending}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mx-auto min-w-40 border-2 border-primary font-medium py-2 rounded-full shadow-md transition text-primary hover:bg-primary hover:text-white"
         >
-          {isPending ? "Logging in" : "Login"}
+          {login.isPending ? "Logging in" : "Login"}
         </motion.button>
       </form>
 
