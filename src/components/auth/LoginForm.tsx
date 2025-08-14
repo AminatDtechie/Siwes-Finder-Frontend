@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { FiLock, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SpecialInputField from "@/components/SpecialInputField";
+import useAuth from "@/hooks/useAuth";
 
 const LoginForm = () => {
+  const {login}= useAuth();
   const {
     register,
     handleSubmit,
@@ -16,7 +18,9 @@ const LoginForm = () => {
       console.error("Invalid form submission: Missing email or password.");
       return;
     }
-    console.log("Submitting Login Data:", data);
+
+    login.mutate(data)
+
   };
 
   return (
@@ -109,11 +113,12 @@ const LoginForm = () => {
         {/* Submit Button */}
         <motion.button
           type="submit"
+          disabled={login.isPending}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mx-auto min-w-40 border-2 border-primary font-medium py-2 rounded-full shadow-md transition text-primary hover:bg-primary hover:text-white"
         >
-          Login
+          {login.isPending ? "Logging in" : "Login"}
         </motion.button>
       </form>
 

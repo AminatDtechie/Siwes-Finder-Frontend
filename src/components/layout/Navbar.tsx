@@ -4,11 +4,20 @@ import { Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation } from "react-router-dom";
-import { FiUsers, FiBriefcase, FiLogIn, FiUserPlus } from "react-icons/fi"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FiUsers, FiBriefcase, FiLogIn, FiUserPlus } from "react-icons/fi";
+import { useAuthorize } from "@/context/AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, logout } = useAuthorize();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   const links = [
     { to: "/placements", label: "Placements" },
@@ -19,59 +28,81 @@ const Navbar = () => {
     <header className="w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
       <div className="flex items-center gap-2 flex-shrink-0">
         <Sheet>
-          <SheetTrigger className="md:hidden">
+          <SheetTrigger className="lg:hidden">
             <Menu className="h-5 w-5" />
           </SheetTrigger>
           <SheetContent side="left" className="w-64 bg-white p-6">
-  <div className="flex flex-col h-full justify-between">
-    {/* Top - Navigation Links */}
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-[#112D6A]">SiwesFinder</h2>
+            <div className="flex flex-col h-full justify-between">
+              {/* Top - Navigation Links */}
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-[#112D6A]">
+                  SiwesFinder
+                </h2>
 
-      <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
-        <a
-          href="/communities"
-          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
-        >
-          <FiUsers className="w-5 h-5" />
-          Communities
-        </a>
-        <a
-          href="/placements"
-          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
-        >
-          <FiBriefcase className="w-5 h-5" />
-          Placements
-        </a>
-        <a
-          href="/companies"
-          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
-        >
-          <Building2 className="w-5 h-5" />
-          For Companies
-        </a>
-      </nav>
-    </div>
+                <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
+                  <a
+                    href="/communities"
+                    className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+                  >
+                    <FiUsers className="w-5 h-5" />
+                    Communities
+                  </a>
+                  <a
+                    href="/placements"
+                    className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+                  >
+                    <FiBriefcase className="w-5 h-5" />
+                    Placements
+                  </a>
+                  <a
+                    href="/companies"
+                    className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+                  >
+                    <Building2 className="w-5 h-5" />
+                    For Companies
+                  </a>
+                </nav>
+              </div>
 
-    {/* Bottom - Auth Actions */}
-    <div className="space-y-4">
-      <a
-        href="/login"
-        className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
-      >
-        <FiLogIn className="w-5 h-5" />
-        Login
-      </a>
-      <a
-        href="/register"
-        className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-blue-900 text-white !rounded-0 hover:bg-blue-700 transition"
-      >
-        <FiUserPlus className="w-5 h-5" />
-        Register
-      </a>
-    </div>
-  </div>
-</SheetContent>
+              {/* Bottom - Auth Actions */}
+              <div className="space-y-4">
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
+                    >
+                      Dashboard
+                    </Link>
+                    <Button
+                      variant="default"
+                      onClick={handleLogout}
+                      className="px-4 py-2 border btn-custom w-full whitespace-nowrap"
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <a
+                      href="/login"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 border border-blue-900 text-blue-500 !rounded-0 hover:bg-blue-50 transition"
+                    >
+                      <FiLogIn className="w-5 h-5" />
+                      Login
+                    </a>
+                    <a
+                      href="/registration"
+                      className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-blue-900 text-white !rounded-0 hover:bg-blue-700 transition"
+                    >
+                      <FiUserPlus className="w-5 h-5" />
+                      Register
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+          </SheetContent>
         </Sheet>
 
         <a href="/" className="text-xl font-bold text-[#112D6A]">
@@ -80,7 +111,7 @@ const Navbar = () => {
       </div>
 
       {/* Hide these on mobile */}
-      <div className="hidden md:flex items-center gap-6 text-base text-muted-foreground flex-shrink-0">
+      <div className="hidden lg:flex items-center gap-6 text-base text-muted-foreground flex-shrink-0">
         {links.map(({ to, label }) => (
           <Link
             key={to}
@@ -113,24 +144,39 @@ const Navbar = () => {
       </div>
 
       {/* Hide on mobile */}
-      <div className="hidden md:flex items-center space-x-4 text-sm flex-shrink-0">
-        <a
-          href="/login"
-          className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
-        >
-          Login
-        </a>
-        <Button className="bg-blue-600 !rounded-none hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap">
-          Register
-        </Button>
-
-        <a
-          href="/for-companies"
-          className="text-blue-600 hover:underline flex items-center space-x-1 whitespace-nowrap"
-        >
-          <span>For Companies</span>
-          <span aria-hidden="true">→</span>
-        </a>
+      <div className="hidden lg:flex items-center space-x-4 text-sm flex-shrink-0">
+        {isAuthenticated ? (
+          <>
+            <Link
+              to="/dashboard"
+              className="transition-colors hover:text-primary"
+            >
+              Dashboard
+            </Link>
+            <Button
+              variant="default"
+              onClick={handleLogout}
+              className="px-4 py-2 border btn-custom whitespace-nowrap"
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <a
+              href="/login"
+              className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 whitespace-nowrap"
+            >
+              Login
+            </a>
+            <a
+              href="/registration"
+              className="bg-blue-600 !rounded-none hover:bg-blue-700 text-white px-4 py-2 whitespace-nowrap"
+            >
+              Register
+            </a>
+          </>
+        )}
       </div>
     </header>
   );

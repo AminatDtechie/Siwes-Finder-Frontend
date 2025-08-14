@@ -31,37 +31,12 @@ interface FilterDialogProps {
   searchTerm: string;
   onApplyFilters: (filters: FilterParams) => void;
   initialFilters?: Partial<FilterParams>;
+   dropdownOptions?: {
+    roles: string[];
+    locations: string[];
+    durations: string[];
+  };
 }
-
-// Sample data - replace with your actual data
-const roleOptions = [
-  { value: "frontend", label: "Frontend Developer" },
-  { value: "backend", label: "Backend Developer" },
-  { value: "fullstack", label: "Full Stack Developer" },
-  { value: "mobile", label: "Mobile Developer" },
-  { value: "ui-ux", label: "UI/UX Designer" },
-  { value: "data-analyst", label: "Data Analyst" },
-  { value: "marketing", label: "Marketing" },
-  { value: "business-analyst", label: "Business Analyst" },
-];
-
-const locationOptions = [
-  { value: "lagos", label: "Lagos" },
-  { value: "abuja", label: "Abuja" },
-  { value: "port-harcourt", label: "Port Harcourt" },
-  { value: "kano", label: "Kano" },
-  { value: "ibadan", label: "Ibadan" },
-  { value: "enugu", label: "Enugu" },
-  { value: "kaduna", label: "Kaduna" },
-  { value: "remote", label: "Remote" },
-];
-
-const durationOptions = [
-  { value: "3-months", label: "3 Months" },
-  { value: "6-months", label: "6 Months" },
-  { value: "12-months", label: "12 Months" },
-  { value: "flexible", label: "Flexible" },
-];
 
 const FilterDialog: React.FC<FilterDialogProps> = ({
   isOpen,
@@ -69,6 +44,7 @@ const FilterDialog: React.FC<FilterDialogProps> = ({
   searchTerm,
   onApplyFilters,
   initialFilters = {},
+  dropdownOptions = { roles: [], locations: [], durations: [] }
 }) => {
   const [filters, setFilters] = useState<FilterParams>({
     role: initialFilters.role || "",
@@ -92,6 +68,7 @@ const FilterDialog: React.FC<FilterDialogProps> = ({
       recentlyPosted: false,
       searchTerm: searchTerm,
     };
+    onApplyFilters(filters); 
     setFilters(clearedFilters);
   };
 
@@ -149,9 +126,9 @@ const FilterDialog: React.FC<FilterDialogProps> = ({
                 <SelectValue placeholder="e.g Frontend" />
               </SelectTrigger>
               <SelectContent>
-                {roleOptions.map((role) => (
-                  <SelectItem key={role.value} value={role.value}>
-                    {role.label}
+                {dropdownOptions.roles.map((role) => (
+                  <SelectItem key={role} value={role}>
+                    {role}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -174,9 +151,9 @@ const FilterDialog: React.FC<FilterDialogProps> = ({
                 <SelectValue placeholder="e.g Ikorodu, Lagos" />
               </SelectTrigger>
               <SelectContent>
-                {locationOptions.map((location) => (
-                  <SelectItem key={location.value} value={location.value}>
-                    {location.label}
+                {dropdownOptions.locations.map((location) => (
+                  <SelectItem key={location} value={location}>
+                    {location}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -199,9 +176,9 @@ const FilterDialog: React.FC<FilterDialogProps> = ({
                 <SelectValue placeholder="Select one" />
               </SelectTrigger>
               <SelectContent>
-                {durationOptions.map((duration) => (
-                  <SelectItem key={duration.value} value={duration.value}>
-                    {duration.label}
+                {dropdownOptions.durations.map((duration) => (
+                  <SelectItem key={duration} value={duration}>
+                    {duration}
                   </SelectItem>
                 ))}
               </SelectContent>

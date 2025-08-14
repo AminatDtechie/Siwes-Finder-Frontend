@@ -10,6 +10,7 @@ const SearchPlacements = ({
   onApplyFilters,
   initialFilters = {},
   currentFilters,
+  dropdownOptions
 }) => {
   // Check if any filters are active
   const hasActiveFilters = currentFilters
@@ -24,8 +25,8 @@ const SearchPlacements = ({
   };
 
   const handleApplyFilters = (filters: FilterParams) => {
-    // Pass the filters up to the parent component
-    console.log(filters);
+    onApplyFilters(filters); // update parent
+    setIsFilterDialogOpen(false);
   };
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
@@ -39,7 +40,10 @@ const SearchPlacements = ({
             type="text"
             placeholder="Find Placements"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              onApplyFilters({ ...currentFilters, searchTerm: e.target.value });
+            }}
             className="w-full pl-10 pr-12 py-3 bg-white border border-gray-300 rounded-full text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -67,6 +71,7 @@ const SearchPlacements = ({
         searchTerm={searchTerm}
         onApplyFilters={handleApplyFilters}
         initialFilters={currentFilters || initialFilters}
+        dropdownOptions={dropdownOptions}
       />
 
       {/* Desktop Layout */}
@@ -123,9 +128,12 @@ const SearchPlacements = ({
                 type="text"
                 placeholder="e.g 3 months"
                 value={currentFilters.duration}
-          onChange={(e) =>
-            onApplyFilters({ ...currentFilters, duration: e.target.value })
-          }
+                onChange={(e) =>
+                  onApplyFilters({
+                    ...currentFilters,
+                    duration: e.target.value,
+                  })
+                }
                 className="!border-none !outline-none !ring-0 !focus:ring-0 !focus:outline-none !focus:border-none p-0 text-gray-600 placeholder-gray-400 bg-transparent"
               />
             </div>

@@ -2,10 +2,13 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiLock, FiMail } from "react-icons/fi";
 import SpecialInputField from "../SpecialInputField";
-import { FaSpinner } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 
 const StudentForm = ({ toggleOption }) => {
+  
+  const { studentRegister } = useAuth()
+
   const {
     register,
     handleSubmit,
@@ -14,9 +17,9 @@ const StudentForm = ({ toggleOption }) => {
   } = useForm();
   const password = watch("password");
   const onSubmit = (data) => {
-    if (data?.confirmPassword !== password) return;
-
-    // Proceed with signup API call
+    const { confirmPassword , ...signupData } = data
+    if (confirmPassword !== password) return;
+    studentRegister.mutate( signupData )
   };
 
   return (
@@ -60,15 +63,15 @@ const StudentForm = ({ toggleOption }) => {
             <input
               type="text"
               placeholder="First Name"
-              {...register("first_name", {
+              {...register("firstname", {
                 required: "First Name is required",
               })}
               className="input-field"
             />
-            {errors.first_name && (
+            {errors.firstname && (
               <p className="text-red-500 text-xs mt-1">
-                {typeof errors.first_name?.message === "string"
-                  ? errors.first_name.message
+                {typeof errors.firstname?.message === "string"
+                  ? errors.firstname.message
                   : ""}
               </p>
             )}
@@ -78,13 +81,13 @@ const StudentForm = ({ toggleOption }) => {
             <input
               type="text"
               placeholder="Last Name"
-              {...register("last_name", { required: "Last Name is required" })}
+              {...register("lastname", { required: "Last Name is required" })}
               className="input-field"
             />
-            {errors.last_name && (
+            {errors.lastname && (
               <p className="text-red-500 text-xs mt-1">
-                {typeof errors.last_name?.message === "string"
-                  ? errors.last_name.message
+                {typeof errors.lastname?.message === "string"
+                  ? errors.lastname.message
                   : ""}
               </p>
             )}
@@ -174,11 +177,12 @@ const StudentForm = ({ toggleOption }) => {
         {/* Submit Button */}
         <motion.button
           type="submit"
+          disabled={studentRegister.isPending}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="mx-auto min-w-40 border-2 border-primary font-medium text-primary py-2 rounded-full shadow-md flex items-center justify-center gap-2 hover:text-white hover:bg-primary transition"
         >
-          <span>Get Started </span>
+          <span> {studentRegister.isPending ? "Please wait..." : "Get Started"} </span>
         </motion.button>
       </form>
 

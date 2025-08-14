@@ -1,3 +1,14 @@
+import { formatDistanceToNow, parseISO } from 'date-fns';
+
+export const formatCreatedAt = ( dateString ) => {
+  const date = parseISO(dateString);
+
+  const timeAgo = formatDistanceToNow(date, { addSuffix: true });
+
+  return timeAgo
+}
+
+
 export const formatDate = (date) => 
     new Date(date).toLocaleDateString('en-US', { 
       day: 'numeric', 

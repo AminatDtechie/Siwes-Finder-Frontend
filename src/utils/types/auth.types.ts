@@ -1,13 +1,8 @@
-export interface LoginCredentials {
+export interface StudentRegisterPayload {
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
-}
-
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  [key: string]: unknown;
 }
 
 export interface OtpData {
