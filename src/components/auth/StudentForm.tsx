@@ -17,7 +17,7 @@ const StudentForm = ({ toggleOption }) => {
   } = useForm();
   const password = watch("password");
   const onSubmit = (data) => {
-    const { confirmPassword , ...signupData } = data
+    const { confirmPassword , terms , ...signupData } = data
     if (confirmPassword !== password) return;
     studentRegister.mutate( signupData )
   };
