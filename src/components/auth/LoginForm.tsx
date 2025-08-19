@@ -94,7 +94,7 @@ const LoginForm = () => {
         <div className="flex items-center justify-center text-xs md:text-sm mx-auto">
           <input
             type="checkbox"
-            {...register("terms", { required: "You must accept the terms" })}
+            {...register("terms", { required: "Please accept the terms to continue." })}
             className="mr-2 cursor-pointer"
           />
           <span>
