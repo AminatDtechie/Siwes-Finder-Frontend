@@ -1,10 +1,16 @@
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, MapPin, Banknote, Link } from 'lucide-react';
-import usePlacement from '@/hooks/usePlacement';
-import { formatCreatedAt } from '@/utils/formmaters';
-import PlacementSkeleton from '../Placements/PlacementSkeleton';
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Banknote,
+  Link,
+} from "lucide-react";
+import usePlacement from "@/hooks/usePlacement";
+import { formatCreatedAt } from "@/utils/formmaters";
+import PlacementSkeleton from "../ui/PlacementSkeleton";
 
 interface Placement {
   id: number;
@@ -16,28 +22,28 @@ interface Placement {
   postedTime: string;
 }
 
-export default function PlacementsCarousel () {
-
+export default function PlacementsCarousel() {
   const { getPlacements } = usePlacement();
 
-   const { data, isLoading, isError, error } = getPlacements;
+  const { data, isLoading, isError, error } = getPlacements;
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => {
       const increment = window.innerWidth < 768 ? 1 : 3;
-      return (prevIndex + increment) >= data.length ? 0 : prevIndex + increment;
+      return prevIndex + increment >= data.length ? 0 : prevIndex + increment;
     });
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => {
       const increment = window.innerWidth < 768 ? 1 : 3;
-      return prevIndex === 0 ? Math.max(0, data?.length - increment) : prevIndex - increment;
+      return prevIndex === 0
+        ? Math.max(0, data?.length - increment)
+        : prevIndex - increment;
     });
   };
-
 
   return (
     <section className="w-full max-w-7xl mx-auto px-3 md:px-24 py-8 md:py-12">
@@ -49,18 +55,18 @@ export default function PlacementsCarousel () {
         </h2>
       </div>
 
-      {
-        isLoading && <PlacementSkeleton />
-      }
+      {isLoading || (isError && <PlacementSkeleton />)}
 
       {/* Carousel Container */}
       <div className="relative">
         {/* Placements Grid */}
         <div className="overflow-hidden">
-          <div 
+          <div
             className="flex transition-transform duration-300 ease-in-out"
             style={{
-              transform: `translateX(-${currentIndex * (100 / (window.innerWidth < 768 ? 1 : 3))}%)`
+              transform: `translateX(-${
+                currentIndex * (100 / (window.innerWidth < 768 ? 1 : 3))
+              }%)`,
             }}
           >
             {data?.map((placement) => (
@@ -76,7 +82,7 @@ export default function PlacementsCarousel () {
                         {placement.position_title}
                       </h3>
                       <p className="text-sm capitalize ">
-                        {placement.industry} ({ placement.position_type })
+                        {placement.industry} ({placement.position_type})
                       </p>
                     </div>
 
@@ -93,7 +99,11 @@ export default function PlacementsCarousel () {
                       </div>
                       <div className="flex items-center">
                         <Banknote className="w-4 h-4 mr-1" />
-                        <span>{placement.salary_amount ? placement.salary_amount : "Unpaid"}</span>
+                        <span>
+                          {placement.salary_amount
+                            ? placement.salary_amount
+                            : "Unpaid"}
+                        </span>
                       </div>
                     </div>
 
@@ -102,7 +112,10 @@ export default function PlacementsCarousel () {
                       <Button className="flex-1 cursor-pointer btn-custom text-white">
                         View Details
                       </Button>
-                      <Button variant="outline" className="flex cursor-pointer items-center gap-1 border-gray-500">
+                      <Button
+                        variant="outline"
+                        className="flex cursor-pointer items-center gap-1 border-gray-500"
+                      >
                         <Link className="w-4 h-4" />
                         Share
                       </Button>
@@ -110,7 +123,7 @@ export default function PlacementsCarousel () {
 
                     {/* Posted Time */}
                     <p className="text-xs text-gray-500 text-right">
-                      {formatCreatedAt( placement.created_at )}
+                      {formatCreatedAt(placement.created_at)}
                     </p>
                   </CardContent>
                 </Card>
@@ -126,7 +139,7 @@ export default function PlacementsCarousel () {
             size="sm"
             onClick={prevSlide}
             className="w-8 h-8 p-0 rounded-full cursor-pointer border-gray-300 hover:bg-gray-50"
-            disabled={currentIndex === 0}
+            disabled={isError || isLoading || currentIndex === 0}
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
@@ -136,9 +149,9 @@ export default function PlacementsCarousel () {
             onClick={nextSlide}
             className="w-8 h-8 p-0 rounded-full cursor-pointer border-gray-300 hover:bg-gray-50"
             disabled={
-              window.innerWidth < 768 
+              window.innerWidth < 768
                 ? currentIndex >= data?.length - 1
-                : currentIndex >= data?.length - 3
+                : currentIndex >= data?.length - 3 || isError || isLoading
             }
           >
             <ChevronRight className="w-4 h-4" />
@@ -147,4 +160,4 @@ export default function PlacementsCarousel () {
       </div>
     </section>
   );
-};
+}
