@@ -17,8 +17,7 @@ const Header = () => {
         {/* Button */}
         <div className="md:my-0 my-3">
           <Button className="btn-custom">
-            <span className="hidden md:inline font-light">View Details</span>
-            <span className="inline md:hidden font-light">Make a Post</span>
+            <span className="inline font-normal">Make a Post</span>
           </Button>
         </div>
       </div>

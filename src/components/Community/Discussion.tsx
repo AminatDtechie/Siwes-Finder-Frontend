@@ -1,6 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { ThumbsUp, MessageCircle, Eye } from "lucide-react";
+import CardSkeleton from "./DCardSkeleton";
+import { Badge } from "../ui/badge";
+import { useState } from "react";
 
 const posts = [
   {
@@ -89,8 +92,14 @@ const posts = [
   },
 ];
 
-
 const Discussion = () => {
+  const categories = [
+    { label: "All", color: "bg-blue-500 text-white" },
+    { label: "Success stories(3)", color: "bg-[#1ED8604D] text-black" },
+    { label: "Questions(2)", color: "bg-[#F59E0B4D] text-black" },
+    { label: "Resource(20)", color: "bg-black text-white" },
+  ];
+
   return (
     <div className="w-full lg:w-1/2 mx-auto my-3 md:mx-0">
       {/* Header */}
@@ -99,6 +108,22 @@ const Discussion = () => {
           Join Real Discussions
         </h2>
       </div>
+
+      <div className="w-full mb-2 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-2 min-w-max font-extralight">
+          {categories.map((cat) => (
+            <Badge
+              key={cat.label}
+              className={`${cat.color} cursor-pointer rounded-2xl text-sm py-1 hover:opacity-80`}
+            >
+              {cat.label}
+            </Badge>
+          ))}
+        </div>
+      </div>
+
+      {/* show skeleton while page is loading */}
+      {/* {isLoading && Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)} */}
 
       {/* Discussion Card */}
       {posts.map((post, index) => (
@@ -143,15 +168,15 @@ const Discussion = () => {
               <div className="flex items-center gap-6 text-xs text-gray-700">
                 <div className="flex items-center gap-1">
                   <ThumbsUp className="w-4 h-4" />
-                  <span>{post.likes} likes</span>
+                  <span>{post.likes}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <MessageCircle className="w-4 h-4" />
-                  <span>{post.comments} comments</span>
+                  <span>{post.comments}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Eye className="w-4 h-4" />
-                  <span>{post.views} views</span>
+                  <span>{post.views}</span>
                 </div>
               </div>
             </CardContent>

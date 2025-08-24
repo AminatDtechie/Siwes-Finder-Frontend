@@ -143,27 +143,7 @@
   /* Firefox */
 }
 
-@keyframes animatedGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animated-bg-gradient {
-  background: linear-gradient(
-    270deg,
-    black,
-    #0f172a,
-    #1e293b,
-    /* brighter/darker blue-gray */ #0f172a,
-    black
-  );
-  background-size: 800% 800%; /* bigger for more movement */
-  animation: animatedGradient 12s ease-in-out infinite; /* faster & smoother */
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

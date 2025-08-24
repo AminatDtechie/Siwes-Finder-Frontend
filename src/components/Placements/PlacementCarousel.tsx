@@ -13,6 +13,7 @@ import { FilterParams } from "./FilterDialog";
 import usePlacement from "@/hooks/usePlacement";
 import { formatCreatedAt } from "@/utils/formmaters";
 import PlacementSkeleton from "../ui/PlacementSkeleton";
+import BadgeFilter from "./BadgeFilters";
 
 interface Placement {
   id: number;
@@ -80,10 +81,11 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
   return (
     <section className="w-full max-w-7xl mx-auto px-4 md:px-24 py-8">
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-2">
         <p className="text-sm hidden md:inline-block text-gray-600 mb-2">
           What are you looking for today?
         </p>
+        <BadgeFilter />
         <h2 className="text-2xl md:text-2xl font-bold text-gray-900">
           Recently posted Placements
         </h2>
