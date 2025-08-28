@@ -66,7 +66,7 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-export default function RecentPlacement() {
+export default function RecentPlacement({ role }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -100,14 +100,17 @@ export default function RecentPlacement() {
 
   return (
     <section className="w-full max-w-7xl mx-auto px-3 md:px-24">
-      <article className="my-10">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
-          2,400+ Students have secured placements from SiwesFinder, You can too!
-        </h2>
-        <p className="text-sm md:text-base text-gray-600">
-          Here's what some of them are saying:
-        </p>
-      </article>
+      {role === "student" && (
+        <article className="my-10">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+            2,400+ Students have secured placements from SiwesFinder, You can
+            too!
+          </h2>
+          <p className="text-sm md:text-base text-gray-600">
+            Here's what some of them are saying:
+          </p>
+        </article>
+      )}
 
       {/* Carousel Container */}
       <div className="relative">

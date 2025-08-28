@@ -14,6 +14,8 @@ const Navbar = () => {
 
   const { isAuthenticated, logout } = useAuthorize();
 
+  const hideForCompaniesLink = location.pathname === "/companies";
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -55,11 +57,11 @@ const Navbar = () => {
                     Placements
                   </a>
                   <a
-                    href="/companies"
+                    href={hideForCompaniesLink ? "/" : "/companies"}
                     className="flex items-center gap-3 hover:text-blue-600 transition-colors"
                   >
                     <Building2 className="w-5 h-5" />
-                    For Companies
+                    {hideForCompaniesLink ? "For Students" : "For Companies"}
                   </a>
                 </nav>
               </div>
@@ -178,10 +180,10 @@ const Navbar = () => {
           </>
         )}
         <a
-          href="/companies"
+          href={hideForCompaniesLink ? "/" : "/companies"}
           className="flex items-center gap-3 hover:text-blue-600 transition-colors"
         >
-          For Companies
+          {hideForCompaniesLink ? "For Students" : "For Companies"}
           <ArrowRight className="w-5 h-5" />
         </a>
       </div>

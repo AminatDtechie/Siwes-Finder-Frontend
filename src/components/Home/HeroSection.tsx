@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
 import { PiGoogleLogo } from "react-icons/pi";
 
-export default function Hero() {
+export default function Hero({ role }) {
   return (
     <>
       <section
@@ -41,12 +41,16 @@ export default function Hero() {
               T&C
             </a>
           </p>
-          <p className="md:text-md text-sm text-white mt-4">
+          {
+            role === "student" && (
+              <p className="md:text-md text-sm text-white mt-4">
             Looking for student interns?{" "}
             <a href="#" className="underline">
               Register as a Company
             </a>
           </p>
+            )
+          }
         </div>
       </section>
     </>
