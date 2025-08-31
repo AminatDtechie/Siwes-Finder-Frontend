@@ -27,7 +27,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
       <div className="flex items-center gap-2 flex-shrink-0">
         <Sheet>
           <SheetTrigger className="lg:hidden">

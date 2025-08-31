@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { PiArrowCircleDownRightLight } from "react-icons/pi";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PiGoogleLogo } from "react-icons/pi";
 
 interface FAQItem {
   id: string;

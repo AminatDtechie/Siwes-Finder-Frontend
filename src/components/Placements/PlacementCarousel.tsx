@@ -5,7 +5,6 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
-  Calendar,
   Share,
   Banknote,
 } from "lucide-react";
@@ -15,15 +14,6 @@ import { formatCreatedAt } from "@/utils/formmaters";
 import PlacementSkeleton from "../ui/PlacementSkeleton";
 import BadgeFilter from "./BadgeFilters";
 
-interface Placement {
-  id: number;
-  title: string;
-  company: string;
-  description: string;
-  location: string;
-  salary: string;
-  postedTime: string;
-}
 
 interface PlacementCarouselProps {
   filters: FilterParams;
@@ -96,7 +86,7 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
         </div>
       </div>
 
-      {isLoading || (isError && <PlacementSkeleton />)}
+      {isLoading || (isError || error && <PlacementSkeleton />)}
 
       {/* Placements Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">

@@ -30,7 +30,7 @@ const useAuth =()=>{
   onError: ( error ) => {
     console.log( "error" , error)
     onFailure({
-      message: error,
+      message: error.message,
       error: "Something went wrong"
     })
   }
@@ -44,7 +44,7 @@ const useAuth =()=>{
     }
     return data;
   },
-  onSuccess: (data)=>{
+  onSuccess: ()=>{
     onSuccess({
       message: "Account created successfully!",
       success: "Please check your mail to verify your account and proceed to login"
@@ -53,7 +53,7 @@ const useAuth =()=>{
   },
   onError: ( error ) => {
     onFailure({
-      message: error,
+      message: error.message,
       error: "Something went wrong"
     })
   }
@@ -68,7 +68,7 @@ const useAuth =()=>{
     }
     return data;
   },
-  onSuccess: (data)=>{
+  onSuccess: ()=>{
     onSuccess({
       message: "Account created successfully!",
       success: "Please check your mail to verify your account and proceed to login"
@@ -77,7 +77,7 @@ const useAuth =()=>{
   },
   onError: ( error ) => {
     onFailure({
-      message: error,
+      message: error.message,
       error: "Something went wrong"
     })
   }
