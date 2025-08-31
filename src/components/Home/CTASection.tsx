@@ -1,7 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Zap } from 'lucide-react';
 
-export default function CTASection () {
+export default function CTASection ({ role }) {
+
+  const student = "Applying for placements is only available to Verified users, Sign up now to get a placement!";
+  const company = "Posting placements is only available for verified users, sign up now to start posting placements.";
+
+
   return (
     <section className="w-full max-w-4xl mx-auto px-4 py-5 md:py-5">
       <div className="text-center">
@@ -16,7 +21,7 @@ export default function CTASection () {
 
         {/* Main Heading */}
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium text-gray-900 leading-tight mb-8 max-w-2xl mx-auto">
-          Applying for placements is only available to Verified users, Sign up now to get a placement!
+          { role === "student" ? student : company }
         </h2>
 
         {/* CTA Button */}

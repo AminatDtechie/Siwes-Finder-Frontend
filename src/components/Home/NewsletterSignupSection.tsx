@@ -11,7 +11,7 @@ export default function NewsletterSignupSection() {
   };
 
   return (
-    <section className="w-full bg-[#D9EDFF] py-4 ">
+    <section className="w-full bg-[#D9EDFF] mt-5 py-4 ">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-10">
           {/* Left Side - Paper Plane Illustration */}

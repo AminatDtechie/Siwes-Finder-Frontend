@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Menu, Search } from "lucide-react";
+import { ArrowRight, Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,8 @@ const Navbar = () => {
 
   const { isAuthenticated, logout } = useAuthorize();
 
+  const hideForCompaniesLink = location.pathname === "/companies";
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -25,7 +27,7 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full flex items-center justify-between px-4 md:px-16 py-4 bg-white shadow-sm">
       <div className="flex items-center gap-2 flex-shrink-0">
         <Sheet>
           <SheetTrigger className="lg:hidden">
@@ -41,7 +43,7 @@ const Navbar = () => {
 
                 <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
                   <a
-                    href="/communities"
+                    href="/community"
                     className="flex items-center gap-3 hover:text-blue-600 transition-colors"
                   >
                     <FiUsers className="w-5 h-5" />
@@ -55,11 +57,11 @@ const Navbar = () => {
                     Placements
                   </a>
                   <a
-                    href="/companies"
+                    href={hideForCompaniesLink ? "/" : "/companies"}
                     className="flex items-center gap-3 hover:text-blue-600 transition-colors"
                   >
                     <Building2 className="w-5 h-5" />
-                    For Companies
+                    {hideForCompaniesLink ? "For Students" : "For Companies"}
                   </a>
                 </nav>
               </div>
@@ -128,13 +130,13 @@ const Navbar = () => {
       </div>
 
       {/* Search input: smaller on mobile */}
-      <div className="flex-1 min-w-0 max-w-[180px] md:max-w-xs">
+      <div className="flex-1 min-w-0 max-w-[120px] md:max-w-xs">
         <div className="relative text-gray-600">
           <Input
             type="search"
             name="search"
             placeholder="Search placements"
-            className="pl-10 w-full"
+            className="pl-10 w-full rounded-lg"
           />
           <Search
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -177,6 +179,13 @@ const Navbar = () => {
             </a>
           </>
         )}
+        <a
+          href={hideForCompaniesLink ? "/" : "/companies"}
+          className="flex items-center gap-3 hover:text-blue-600 transition-colors"
+        >
+          {hideForCompaniesLink ? "For Students" : "For Companies"}
+          <ArrowRight className="w-5 h-5" />
+        </a>
       </div>
     </header>
   );

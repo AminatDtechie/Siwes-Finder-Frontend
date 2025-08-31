@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Flame, Zap, Star } from "lucide-react";
 
 
-export default function WhySiwesFinder( ) {
+const WhySiwesFinder = ({ role }) => {
   return (
     <section className="w-full max-w-6xl mx-auto px-3 md:px-10 pt-8 md:pt-12">
       {/* Section Title */}
       <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8 md:mb-12">
-        Why Siwes Finder??
+        {
+          role === "student" ? "Why Siwes Finder??" : "Why Hire From Siwes Finder??"
+        }
       </h2>
 
       {/* Cards Grid */}
@@ -127,3 +129,5 @@ export default function WhySiwesFinder( ) {
     </section>
   );
 }
+
+export default WhySiwesFinder; 
