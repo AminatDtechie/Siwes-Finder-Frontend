@@ -13,7 +13,7 @@ import usePlacement from "@/hooks/usePlacement";
 import { formatCreatedAt } from "@/utils/formmaters";
 import PlacementSkeleton from "../ui/PlacementSkeleton";
 import BadgeFilter from "./BadgeFilters";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 interface PlacementCarouselProps {
   filters: FilterParams;
@@ -21,9 +21,9 @@ interface PlacementCarouselProps {
 
 const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
   const { getPlacements } = usePlacement();
-
   const { data, isLoading, isError, error } = getPlacements;
 
+  // Filter placements based on incoming filters
   const filteredPlacements = data?.filter((p) => {
     return (
       (!filters.role ||
@@ -45,7 +45,7 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
     return typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 6;
   }
 
-  // Update itemsPerPage on resize
+  // Handle responsive resizing
   useEffect(() => {
     const handleResize = () => {
       const newItemsPerPage = window.innerWidth < 768 ? 2 : 6;
@@ -57,7 +57,11 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil(filteredPlacements?.length / itemsPerPage);
+  // Pagination logic
+  const totalPages = Math.max(
+    1,
+    Math.ceil((filteredPlacements?.length || 0) / itemsPerPage)
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentPlacements = filteredPlacements?.slice(
     startIndex,
@@ -86,106 +90,152 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
         </div>
       </div>
 
-      {isLoading || (isError || error && <PlacementSkeleton />)}
+      {/* Loading State */}
+      {isLoading && <PlacementSkeleton />}
+
+      {/* Error State */}
+      {isError && (
+        <div className="text-center text-red-600 py-8">
+          <p>⚠️ Failed to load placements.</p>
+          {error && (
+            <p className="text-sm text-gray-500">
+              {error.message || "Unknown error"}
+            </p>
+          )}
+          <Button onClick={() => window.location.reload()} className="mt-3">
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!isLoading && !isError && filteredPlacements?.length === 0 && (
+        <div className="text-center text-gray-600 py-10">
+          <p>No placements found for your filters.</p>
+        </div>
+      )}
 
       {/* Placements Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-        {currentPlacements?.map((placement) => (
-          <Card
-            key={placement.id}
-            className="bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-all duration-200"
+      {!isLoading &&
+        !isError &&
+        filteredPlacements &&
+        filteredPlacements.length > 0 && (
+          <motion.div
+            key={currentPage} // re-animates when page changes
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8"
           >
-            <CardContent className="p-4 md:p-6">
-              <div className="mb-4">
-                <h3 className="font-bold text-gray-900 text-base md:text-lg mb-1">
-                  {placement.position_title}
-                </h3>
-                <p className="text-sm text-gray-600 capitalize">
-                  {placement.industry} ({placement.position_type})
-                </p>
-              </div>
-
-              <p className="text-sm text-gray-700 leading-relaxed mb-4">
-                {placement.description}
-              </p>
-
-              <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <MapPin className="w-4 h-4 mr-1" />
-                  <span>{placement.location}</span>
-                </div>
-                <div className="flex items-center">
-                  <Banknote className="w-4 h-4 mr-1" />
-                  <span>
-                    {placement.salary_amount
-                      ? placement.salary_amount
-                      : "Unpaid"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex gap-3 justify-between mb-3">
-                <Button className="flex btn-custom text-white text-sm">
-                  View Details
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex items-center !rounded-none gap-1 border-gray-500 text-sm"
+            <AnimatePresence>
+              {currentPlacements?.map((placement) => (
+                <motion.div
+                  key={placement.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <Share className="w-4 h-4" />
-                  Share
-                </Button>
-              </div>
+                  <Card className="bg-gray-100 border border-gray-200 hover:bg-gray-200 transition-all duration-200">
+                    <CardContent className="p-4 md:p-6">
+                      <div className="mb-4">
+                        <h3 className="font-bold text-gray-900 text-base md:text-lg mb-1">
+                          {placement.position_title}
+                        </h3>
+                        <p className="text-sm text-gray-600 capitalize">
+                          {placement.industry} ({placement.position_type})
+                        </p>
+                      </div>
 
-              <p className="text-xs text-gray-500 text-right">
-                {formatCreatedAt(placement.created_at)}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                      <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                        {placement.description}
+                      </p>
+
+                      <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
+                        <div className="flex items-center">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          <span>{placement.location}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Banknote className="w-4 h-4 mr-1" />
+                          <span>{placement.salary_amount || "Unpaid"}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3 justify-between mb-3">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Button className="flex btn-custom text-white text-sm">
+                            View Details
+                          </Button>
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Button
+                            variant="outline"
+                            className="flex items-center !rounded-none gap-1 border-gray-500 text-sm"
+                          >
+                            <Share className="w-4 h-4" />
+                            Share
+                          </Button>
+                        </motion.div>
+                      </div>
+
+                      <p className="text-xs text-gray-500 text-right">
+                        {formatCreatedAt(placement.created_at)}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        )}
 
       {/* Navigation */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-        <div className="flex items-center space-x-5">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={prevPage}
-            disabled={isLoading || isError || currentPage === 1}
-            className="w-8 h-8 p-0 rounded-full border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={nextPage}
-            disabled={isLoading || isError || currentPage === totalPages}
-            className="w-8 h-8 p-0 rounded-full border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+      {!isLoading &&
+        !isError &&
+        filteredPlacements &&
+        filteredPlacements.length > 0 && (
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div className="flex items-center space-x-5">
+              <motion.div whileTap={{ scale: 0.8 }}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={prevPage}
+                  disabled={currentPage === 1}
+                  className="w-8 h-8 p-0 rounded-full border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+              </motion.div>
+              <motion.div whileTap={{ scale: 0.8 }}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages}
+                  className="w-8 h-8 p-0 rounded-full border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </motion.div>
 
-          {/* Page text shows beside buttons on desktop */}
-          {isLoading || isError ? (
-            ""
-          ) : (
-            <span className="hidden md:inline text-sm text-gray-600">
+              <span className="hidden md:inline text-sm text-gray-600">
+                Page {currentPage} of {totalPages}
+              </span>
+            </div>
+
+            <div className="md:hidden text-sm text-gray-600 text-right">
               Page {currentPage} of {totalPages}
-            </span>
-          )}
-        </div>
-
-        {/* Page text moves to opposite side on mobile */}
-        {isLoading || isError ? (
-          ""
-        ) : (
-          <div className="md:hidden text-sm text-gray-600 text-right">
-            Page {currentPage} of {totalPages}
+            </div>
           </div>
         )}
-      </div>
     </section>
   );
 };

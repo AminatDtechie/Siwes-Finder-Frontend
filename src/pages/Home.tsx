@@ -1,6 +1,4 @@
-import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/Home/HeroSection";
-import Footer from "@/components/layout/Footer";
 import WhySiwesFinder from "@/components/Home/WhySiwesFinder";
 import LogoCarousel from "@/components/Home/LogoCarousel";
 import TestimonialsCarousel from "@/components/Home/TestimonialCarousel";
@@ -19,7 +17,6 @@ const logo_urls = [
 const Home = () => {
   return (
     <>
-      <Navbar />
       <Hero role="student" />
       <LogoCarousel logos={logo_urls} />
       <WhySiwesFinder role="student" />
@@ -28,7 +25,6 @@ const Home = () => {
       <CTASection role="student" />
       <JoinDiscussionsSection />
       <NewsletterSignupSection />
-      <Footer />
     </>
   );
 };
