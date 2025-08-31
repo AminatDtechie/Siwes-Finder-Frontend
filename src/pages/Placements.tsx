@@ -1,6 +1,4 @@
 import { useMemo, useState } from "react";
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
 import FAQ from "@/components/Placements/FAQ";
 import GetStartedCTA from "@/components/Placements/GetStarted";
 import PlacementCarousel from "@/components/Placements/PlacementCarousel";
@@ -35,7 +33,6 @@ const Placements = () => {
 
   return (
     <>
-      <Navbar />
       <SearchPlacements
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -47,7 +44,6 @@ const Placements = () => {
       <PlacementCarousel filters={filters} />
       <FAQ />
       <GetStartedCTA />
-      <Footer />
     </>
   );
 };

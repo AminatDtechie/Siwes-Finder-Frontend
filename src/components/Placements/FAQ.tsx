@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PiGoogleLogo } from "react-icons/pi";
 
 interface FAQItem {
   id: string;
@@ -82,6 +81,6 @@ const FAQ = () => {
       </section>
     </>
   );
-}
+};
 
 export default FAQ;

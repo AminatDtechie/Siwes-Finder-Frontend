@@ -48,7 +48,7 @@ const GetStarted = () => {
           <FiUserPlus size={30} />
         </figure>
         <article className="px-4 relative z-10">
-          <h2 className="font-semibold text-lg">Recruiter</h2>
+          <h2 className="font-semibold text-lg">Company</h2>
           <p className="text-sm text-gray-500">Sign up to post opportunities</p>
         </article>
       </motion.div>

@@ -1,11 +1,9 @@
 import { CiCalendar } from "react-icons/ci";
-import event1 from "../assets/event.jpeg"
-import event2 from "../assets/event2.png"
-import event3 from "../assets/event3.png"
+import event1 from "../assets/event.jpeg";
+import event2 from "../assets/event2.png";
+import event3 from "../assets/event3.png";
 import { IoPrintOutline, IoSettingsOutline } from "react-icons/io5";
 import { BsCalendar4 } from "react-icons/bs";
-
-
 
 export const promoterOptions = [
   {

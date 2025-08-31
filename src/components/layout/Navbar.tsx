@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Building2, Menu, Search } from "lucide-react";
+import { Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -179,13 +179,13 @@ const Navbar = () => {
             </a>
           </>
         )}
-        <a
+        {/* <a
           href={hideForCompaniesLink ? "/" : "/companies"}
           className="flex items-center gap-3 hover:text-blue-600 transition-colors"
         >
           {hideForCompaniesLink ? "For Students" : "For Companies"}
           <ArrowRight className="w-5 h-5" />
-        </a>
+        </a> */}
       </div>
     </header>
   );
