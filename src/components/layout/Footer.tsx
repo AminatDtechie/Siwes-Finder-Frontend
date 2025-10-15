@@ -21,7 +21,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-3 text-blue-200">
               <li>
@@ -50,10 +50,10 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* For Companies */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h4 className="text-lg font-semibold mb-4">For Companies</h4>
             <ul className="space-y-3 text-blue-200">
               <li>
@@ -77,7 +77,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         {/* Desktop Layout */}
@@ -98,7 +98,7 @@ const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            <div>
+            {/* <div>
               <h4 className="text-lg font-semibold mb-4 text-white">
                 Quick Links
               </h4>
@@ -144,10 +144,10 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* For Companies */}
-            <div>
+            {/* <div>
               <h4 className="text-lg font-semibold mb-4 text-white">
                 For Companies
               </h4>
@@ -185,7 +185,7 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* Empty column for spacing */}
             <div></div>

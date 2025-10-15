@@ -18,12 +18,12 @@ const Home = () => {
   return (
     <>
       <Hero role="student" />
-      <LogoCarousel logos={logo_urls} />
+      {/* <LogoCarousel logos={logo_urls} /> */}
       <WhySiwesFinder role="student" />
-      <TestimonialsCarousel role="student" />
-      <PlacementsCarousel />
-      <CTASection role="student" />
-      <JoinDiscussionsSection />
+      {/* <TestimonialsCarousel role="student" /> */}
+      {/* <PlacementsCarousel /> */}
+      {/* <CTASection role="student" /> */}
+      {/* <JoinDiscussionsSection /> */}
       <NewsletterSignupSection />
     </>
   );
