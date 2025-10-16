@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, Menu, Search } from "lucide-react";
+import { ArrowRight, Building2, Menu, Search } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,7 +42,8 @@ const Navbar = () => {
                 </h2>
 
                 <nav className="flex flex-col space-y-4 text-gray-800 text-base font-medium">
-                  <a
+                  {
+                  /* <a
                     href="/community"
                     className="flex items-center gap-3 hover:text-blue-600 transition-colors"
                   >
@@ -55,7 +56,7 @@ const Navbar = () => {
                   >
                     <FiBriefcase className="w-5 h-5" />
                     Placements
-                  </a>
+                  </a> */
                   <a
                     href={hideForCompaniesLink ? "/" : "/companies"}
                     className="flex items-center gap-3 hover:text-blue-600 transition-colors"
@@ -63,12 +64,13 @@ const Navbar = () => {
                     <Building2 className="w-5 h-5" />
                     {hideForCompaniesLink ? "For Students" : "For Companies"}
                   </a>
+                  }
                 </nav>
               </div>
 
               {/* Bottom - Auth Actions */}
               <div className="space-y-4">
-                {isAuthenticated ? (
+                {/* {isAuthenticated ? (
                   <>
                     <Link
                       to="/dashboard"
@@ -101,7 +103,7 @@ const Navbar = () => {
                       Register
                     </a>
                   </>
-                )}
+                )} */}
               </div>
             </div>
           </SheetContent>
@@ -114,7 +116,7 @@ const Navbar = () => {
 
       {/* Hide these on mobile */}
       <div className="hidden lg:flex items-center gap-6 text-base text-muted-foreground flex-shrink-0">
-        {links.map(({ to, label }) => (
+        {/* {links.map(({ to, label }) => (
           <Link
             key={to}
             to={to}
@@ -126,12 +128,12 @@ const Navbar = () => {
           >
             {label}
           </Link>
-        ))}
+        ))} */}
       </div>
 
       {/* Search input: smaller on mobile */}
       <div className="flex-1 min-w-0 max-w-[120px] md:max-w-xs">
-        <div className="relative text-gray-600">
+        {/* <div className="relative text-gray-600">
           <Input
             type="search"
             name="search"
@@ -142,12 +144,12 @@ const Navbar = () => {
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={16}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Hide on mobile */}
       <div className="hidden lg:flex items-center space-x-4 text-sm flex-shrink-0">
-        {isAuthenticated ? (
+        {/* {isAuthenticated ? (
           <>
             <Link
               to="/dashboard"
@@ -178,14 +180,14 @@ const Navbar = () => {
               Register
             </a>
           </>
-        )}
-        {/* <a
+        )} */}
+        <a
           href={hideForCompaniesLink ? "/" : "/companies"}
           className="flex items-center gap-3 hover:text-blue-600 transition-colors"
         >
           {hideForCompaniesLink ? "For Students" : "For Companies"}
           <ArrowRight className="w-5 h-5" />
-        </a> */}
+        </a>
       </div>
     </header>
   );

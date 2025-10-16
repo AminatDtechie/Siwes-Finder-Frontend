@@ -4,6 +4,7 @@ import Fallback from "@/components/Fallback";
 import ProtectedRoute from "./context/ProtectedRoute";
 import MainLayout from "./layout/MainLayout";
 const Home = lazy(() => import("./pages/Home"));
+const Waitlist = lazy(() => import("./pages/Waitlist"));
 const Placements = lazy(() => import("./pages/Placements"));
 const PlacementDetails = lazy(() => import("./pages/PlacementDetails"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,17 +19,18 @@ function App() {
     <Suspense fallback={<Fallback />}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/placements" element={<Placements />} />
+          <Route index element={<Waitlist />} />
+          {/* <Route index element={<Home />} /> */}
+          {/* <Route path="/placements" element={<Placements />} />
           <Route path="/placements/:id" element={<PlacementDetails />} />
           <Route path="/companies" element={<Companies />} />
-          <Route path="/community" element={<Community />} />
+          <Route path="/community" element={<Community />} /> */}
         </Route>
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+        </Route> */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
