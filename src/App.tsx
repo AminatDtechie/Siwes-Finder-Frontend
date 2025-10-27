@@ -26,9 +26,9 @@ function App() {
           <Route path="/companies" element={<Companies />} />
           <Route path="/community" element={<Community />} /> */}
         </Route>
-        <Route path="/login" element={<Login />} />
+        {/*<Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
-        {/*<Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route> */}
 
