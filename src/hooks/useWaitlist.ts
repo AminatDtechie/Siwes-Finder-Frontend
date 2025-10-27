@@ -17,7 +17,7 @@ const useWaitlist = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["waitlistUsers"]);
+      queryClient.invalidateQueries({ queryKey: ["waitlistUsers"] });
       onSuccess({
         message: "You're on the waitlist!",
         success: "Check your inbox for a confirmation email and updates soon.",
