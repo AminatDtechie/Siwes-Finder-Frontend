@@ -121,7 +121,7 @@
 }
 
 .btn-custom {
-  @apply bg-blue-900 hover:bg-blue-700 !rounded-none
+  @apply bg-blue-900 hover:bg-blue-700 !rounded-none;
 }
 
 .input-field {
@@ -130,6 +130,20 @@
 .input-field2 {
   @apply w-full p-3 border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary;
 }
+
+#waitlistInput:-webkit-autofill,
+#waitlistInput:-webkit-autofill:hover,
+#waitlistInput:-webkit-autofill:focus,
+#waitlistInput:-webkit-autofill:active {
+  border: none !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #00000000 inset !important;
+  box-shadow: 0 0 0px 1000px #00000000 inset !important;
+  background-color: initial !important;
+  background-image: none !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

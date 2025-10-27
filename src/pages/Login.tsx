@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { Navigate } from "react-router-dom";
 import LoginForm from "@/components/auth/LoginForm";
 import watermark from "@/assets/bg-img.png";
 import bgImg from "@/assets/hero-img.png";

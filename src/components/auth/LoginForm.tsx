@@ -4,9 +4,10 @@ import { FiLock, FiMail } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SpecialInputField from "@/components/SpecialInputField";
 import useAuth from "@/hooks/useAuth";
+import logo from "@/assets/logo-blue.png";
 
 const LoginForm = () => {
-  const {login}= useAuth();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
@@ -19,8 +20,7 @@ const LoginForm = () => {
       return;
     }
 
-    login.mutate(data)
-
+    login.mutate(data);
   };
 
   return (
@@ -32,6 +32,7 @@ const LoginForm = () => {
     >
       <div className="flex justify-center">
         <Link to="/" className="text-3xl font-bold text-blue-800 tracking-wide">
+          <img src={logo} alt="logo" className="w-20" />
           SiwesFinder
         </Link>
       </div>
@@ -94,7 +95,9 @@ const LoginForm = () => {
         <div className="flex items-center justify-center text-xs md:text-sm mx-auto">
           <input
             type="checkbox"
-            {...register("terms", { required: "Please accept the terms to continue." })}
+            {...register("terms", {
+              required: "Please accept the terms to continue.",
+            })}
             className="mr-2 cursor-pointer"
           />
           <span>
