@@ -14,6 +14,10 @@ export default function Hero() {
 
   const joinedCount = data?.length || 0;
 
+  // Calculate expected user capacity dynamically
+  const EXPECTED_USERS = Math.max(joinedCount * 2, 50);
+  const filledPercentage = Math.min((joinedCount / EXPECTED_USERS) * 100, 100);
+
   // Animated counter effect
   useEffect(() => {
     if (joinedCount > 0) {
@@ -191,22 +195,19 @@ export default function Hero() {
                 {/* Minimal Progress Bar */}
                 <div className="flex justify-between items-center text-xs text-gray-400 font-light">
                   <span>Early Access List</span>
-                  <span>
-                    {Math.min((joinedCount / 500) * 100, 100)}% filled
-                  </span>
+                  <span>{filledPercentage.toFixed(0)}% filled</span>
                 </div>
+
                 <div className="w-48 mx-auto h-0.5 bg-gray-700 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{
-                      width: `${Math.min((joinedCount / 500) * 100, 100)}%`,
-                    }}
+                    whileInView={{ width: `${filledPercentage}%` }}
                     transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
                     className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
                   />
                 </div>
 
-                {/* Luxury CTA Text */}
+                {/* CTA Text */}
                 <p className="text-xs text-gray-400 font-light tracking-wider">
                   Join the exclusive early access list • Priority onboarding
                   guaranteed
