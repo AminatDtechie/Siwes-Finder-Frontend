@@ -2,8 +2,49 @@ import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
 import { PiGoogleLogo } from "react-icons/pi";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { onFailure } from "@/utils/notifications/OnFailure";
+import { useNavigate } from "react-router-dom";
+import { useAuthorize } from "@/context/AuthContext";
 
 export default function Hero({ role }) {
+
+  const navigate = useNavigate();
+    const { saveLogin } = useAuthorize();
+
+  const handleGoogleLogin = () => {
+    const width = 500;
+    const height = 600;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2;
+
+    const popup = window.open(
+      `${import.meta.env.VITE_BASE_URL}/auth/google/${role}`,
+      "Google Login",
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+
+      const { token, role: userRole, error } = event.data;
+
+      if (error) {
+        onFailure({ message: "Google Login Failed", error: "Something went wrong" });
+        popup?.close();
+      } else if (token && userRole) {
+        saveLogin(token, userRole);
+        popup?.close();
+        navigate("/dashboard");
+      }
+
+      window.removeEventListener("message", handleMessage);
+    };
+
+    window.addEventListener("message", handleMessage);
+  };
+
+
   return (
     <section
       className="w-full bg-[radial-gradient(ellipse_at_center,_#1e40af_0%,_#1e3a8a_40%,_#111827_70%,_#000000_100%)]
@@ -44,15 +85,18 @@ export default function Hero({ role }) {
           <Button
             variant="outline"
             className="w-full md:w-auto bg-white text-black hover:bg-gray-100"
+            onClick={handleGoogleLogin}
           >
             <PiGoogleLogo className="mr-2 h-5 w-5" />
             Continue with Google
           </Button>
 
-          <Button className="w-full md:w-auto bg-[#2563eb] hover:bg-[#1d4ed8]">
-            <Mail className="mr-2 h-5 w-5" />
-            Continue with Email
-          </Button>
+          <Link to="/login">
+            <Button className="w-full md:w-auto bg-[#2563eb] hover:bg-[#1d4ed8]">
+              <Mail className="mr-2 h-5 w-5" />
+              Continue with Email
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Terms & Conditions */}
@@ -79,7 +123,7 @@ export default function Hero({ role }) {
             className="md:text-md text-sm text-white mt-4"
           >
             Looking for student interns?{" "}
-            <a href="#" className="underline">
+            <a href="/companies" className="underline">
               Register as a Company
             </a>
           </motion.p>

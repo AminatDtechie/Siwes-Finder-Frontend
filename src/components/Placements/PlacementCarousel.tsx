@@ -6,7 +6,7 @@ import {
   ChevronRight,
   MapPin,
   Share,
-  Banknote,
+  Banknote
 } from "lucide-react";
 import { FilterParams } from "./FilterDialog";
 import usePlacement from "@/hooks/usePlacement";
@@ -14,6 +14,7 @@ import { formatCreatedAt } from "@/utils/formmaters";
 import PlacementSkeleton from "../ui/PlacementSkeleton";
 import BadgeFilter from "./BadgeFilters";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 interface PlacementCarouselProps {
   filters: FilterParams;
@@ -168,7 +169,7 @@ const PlacementCarousel: React.FC<PlacementCarouselProps> = ({ filters }) => {
                           whileTap={{ scale: 0.95 }}
                         >
                           <Button className="flex btn-custom text-white text-sm">
-                            View Details
+                            <Link to={`/placements/${placement.id}`}>View Details</Link>
                           </Button>
                         </motion.div>
                         <motion.div

@@ -7,7 +7,9 @@ import {
   MapPin,
   Banknote,
   Link,
+  Lock
 } from "lucide-react";
+import { Link as RouterLink } from "react-router-dom";
 import usePlacement from "@/hooks/usePlacement";
 import { formatCreatedAt } from "@/utils/formmaters";
 import PlacementSkeleton from "../ui/PlacementSkeleton";
@@ -69,29 +71,42 @@ export default function PlacementsCarousel() {
               }%)`,
             }}
           >
-            {data?.map((placement) => (
+          {data?.map((placement, index) => {
+            const isLocked = placement.isLocked;
+
+            return (
               <div
                 key={placement.id}
                 className="w-full md:w-1/3 flex-shrink-0 px-2"
               >
-                <Card className="h-full bg-gray-100 shadow-sm hover:bg-gray-200 transition-all duration-200">
-                  <CardContent className="p-6">
-                    {/* Job Title & Company */}
+                <Card className="h-full bg-gray-100 shadow-sm transition-all duration-200 hover:bg-gray-200">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    
+                    {/* Job Title & Industry — always visible */}
                     <div className="mb-4">
                       <h3 className="font-semibold text-gray-900 text-lg mb-1">
                         {placement.position_title}
                       </h3>
-                      <p className="text-sm capitalize ">
+                      <p className="text-sm capitalize text-gray-600">
                         {placement.industry} ({placement.position_type})
                       </p>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-sm text-gray-700 leading-relaxed mb-6">
-                      {placement.description}
-                    </p>
+                    {/* Description — locked or visible */}
+                    {isLocked ? (
+                      <div className="flex flex-col items-center justify-center text-center bg-white border border-dashed border-gray-300 rounded-lg px-4 py-6 mb-6 min-h-[4.5rem]">
+                        <Lock className="w-4 h-4 text-gray-400 mb-2" />
+                        <p className="text-xs text-gray-500">
+                          Sign in to read the full description
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-700 leading-relaxed mb-6 line-clamp-3 min-h-[4.5rem]">
+                        {placement.description}
+                      </p>
+                    )}
 
-                    {/* Location and Salary */}
+                    {/* Location and Salary — always visible */}
                     <div className="flex items-center justify-between mb-6 text-sm text-gray-600">
                       <div className="flex items-center">
                         <MapPin className="w-4 h-4 mr-1" />
@@ -100,35 +115,49 @@ export default function PlacementsCarousel() {
                       <div className="flex items-center">
                         <Banknote className="w-4 h-4 mr-1" />
                         <span>
-                          {placement.salary_amount
-                            ? placement.salary_amount
-                            : "Unpaid"}
+                          {placement.salary_amount ? placement.salary_amount : "Unpaid"}
                         </span>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3 mb-4">
-                      <Button className="flex-1 cursor-pointer btn-custom text-white">
-                        View Details
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="flex cursor-pointer items-center gap-1 border-gray-500"
-                      >
-                        <Link className="w-4 h-4" />
-                        Share
-                      </Button>
-                    </div>
+                    {!isLocked ? (
+                      <div className="flex gap-3 mt-auto">
+                        <RouterLink to={`/placements/${placement.id}`} className="flex-1">
+                          <Button className="w-full cursor-pointer btn-custom text-white">
+                            View Details
+                          </Button>
+                        </RouterLink>
+                        <Button
+                          variant="outline"
+                          className="flex cursor-pointer items-center gap-1 border-gray-500"
+                        >
+                          <Link className="w-4 h-4" />
+                          Share
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="mt-auto">
+                        <RouterLink to="/login">
+                          <Button className="w-full btn-custom text-white">
+                            Login to View Details
+                          </Button>
+                        </RouterLink>
+                      </div>
+                    )}
 
                     {/* Posted Time */}
-                    <p className="text-xs text-gray-500 text-right">
-                      {formatCreatedAt(placement.created_at)}
-                    </p>
+                    {!isLocked && (
+                      <p className="text-xs text-gray-500 text-right mt-4">
+                        {formatCreatedAt(placement.created_at)}
+                      </p>
+                    )}
+
                   </CardContent>
                 </Card>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
 
